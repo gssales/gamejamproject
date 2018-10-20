@@ -1,21 +1,56 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://scripts/Player.gd" type="Script" id=1]
-[ext_resource path="res://art/feijao_idle_1.png" type="Texture" id=2]
+[ext_resource path="res://art/player_idle_1.png" type="Texture" id=2]
+[ext_resource path="res://art/player_idle_2.png" type="Texture" id=3]
+[ext_resource path="res://art/player_punch_1.png" type="Texture" id=4]
+[ext_resource path="res://art/player_punch_2.png" type="Texture" id=5]
+[ext_resource path="res://art/player_walk_1.png" type="Texture" id=6]
+[ext_resource path="res://art/player_walk_2.png" type="Texture" id=7]
 
-[sub_resource type="CapsuleShape2D" id=1]
+[sub_resource type="RayShape2D" id=1]
 
 custom_solver_bias = 0.0
-radius = 10.0
-height = 3.45389
+length = 24.9175
 
-[node name="Player" type="RigidBody2D"]
+[sub_resource type="CapsuleShape2D" id=2]
+
+custom_solver_bias = 0.0
+radius = 21.7628
+height = 107.975
+
+[sub_resource type="CapsuleShape2D" id=3]
+
+custom_solver_bias = 0.0
+radius = 6.82281
+height = 40.5329
+
+[sub_resource type="SpriteFrames" id=4]
+
+animations = [ {
+"frames": [ ExtResource( 2 ), ExtResource( 3 ) ],
+"loop": true,
+"name": "idle",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 4 ), ExtResource( 5 ) ],
+"loop": false,
+"name": "punch",
+"speed": 8.0
+}, {
+"frames": [ ExtResource( 6 ), ExtResource( 7 ) ],
+"loop": true,
+"name": "walk",
+"speed": 5.0
+} ]
+
+[node name="Player" type="RigidBody2D" index="0"]
 
 input_pickable = false
 collision_layer = 1
 collision_mask = 1
 mode = 0
-mass = 1.0
+mass = 7.0
 friction = 1.0
 bounce = 0.0
 gravity_scale = 5.0
@@ -30,27 +65,65 @@ linear_damp = -1.0
 angular_velocity = 0.0
 angular_damp = -1.0
 script = ExtResource( 1 )
+_sections_unfolded = [ "Transform" ]
 speed = 400
 jump_height = 300
 
-[node name="Sprite" type="Sprite" parent="." index="0"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." index="0"]
 
-position = Vector2( 8.24517, -15.7734 )
-scale = Vector2( 0.125, 0.125 )
-texture = ExtResource( 2 )
-_sections_unfolded = [ "Transform" ]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." index="1"]
-
-scale = Vector2( 2.85743, 3.13894 )
+scale = Vector2( 2.85743, 3.36373 )
 shape = SubResource( 1 )
 _sections_unfolded = [ "Transform", "Z Index" ]
 
-[node name="Feet" type="RayCast2D" parent="." index="2"]
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="." index="1"]
+
+shape = SubResource( 2 )
+
+[node name="PunchHand" type="Area2D" parent="." index="2"]
+
+position = Vector2( 50, -25 )
+rotation = 1.5708
+scale = Vector2( -1, 1 )
+input_pickable = true
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+audio_bus_override = false
+audio_bus_name = "Master"
+_sections_unfolded = [ "Collision", "Transform" ]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PunchHand" index="0"]
+
+shape = SubResource( 3 )
+disabled = true
+
+[node name="Feet" type="RayCast2D" parent="." index="3"]
 
 enabled = true
 exclude_parent = true
-cast_to = Vector2( 0, 40 )
+cast_to = Vector2( 0, 90 )
 collision_mask = 1
+_sections_unfolded = [ "Transform" ]
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="." index="4"]
+
+scale = Vector2( 0.25, 0.25 )
+frames = SubResource( 4 )
+animation = "idle"
+frame = 1
+playing = true
+_sections_unfolded = [ "Transform" ]
+
+[node name="PunchTimer" type="Timer" parent="." index="5"]
+
+process_mode = 1
+wait_time = 0.5
+one_shot = false
+autostart = false
+
+[connection signal="body_entered" from="PunchHand" to="." method="punch_hit"]
+
+[connection signal="timeout" from="PunchTimer" to="." method="_on_PunchTimer_timeout"]
 
 

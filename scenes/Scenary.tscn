@@ -1,0 +1,52 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://scripts/Scenary.gd" type="Script" id=1]
+[ext_resource path="res://scenes/Wall.tscn" type="PackedScene" id=2]
+
+[node name="Scenary" type="Node2D"]
+
+position = Vector2( -10, 0 )
+script = ExtResource( 1 )
+_sections_unfolded = [ "Transform" ]
+__meta__ = {
+"_edit_group_": true
+}
+background = null
+
+[node name="Background" type="Sprite" parent="." index="0"]
+
+position = Vector2( 640, 360 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="Walls" type="Node2D" parent="." index="1"]
+
+[node name="LeftWall" parent="Walls" index="0" instance=ExtResource( 2 )]
+
+position = Vector2( -40, 360 )
+rotation = 1.5708
+height = 720
+width = 80
+
+[node name="BottomWall" parent="Walls" index="1" instance=ExtResource( 2 )]
+
+position = Vector2( 640, 760 )
+scale = Vector2( 1, 0.9375 )
+height = 80
+width = 1280
+
+[node name="RightWall" parent="Walls" index="2" instance=ExtResource( 2 )]
+
+position = Vector2( 1320, 360 )
+rotation = 1.5708
+scale = Vector2( 1, 0.9375 )
+height = 720
+width = 80
+
+[node name="TopWall" parent="Walls" index="3" instance=ExtResource( 2 )]
+
+position = Vector2( 640, -40 )
+scale = Vector2( 1, 0.9375 )
+height = 80
+width = 1280
+
+
