@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://scripts/Mob1.gd" type="Script" id=1]
 [ext_resource path="res://art/feijao_idle_1.png" type="Texture" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://art/feijao_punch_2.png" type="Texture" id=5]
 [ext_resource path="res://art/feijao_walk_1.png" type="Texture" id=6]
 [ext_resource path="res://art/feijao_walk_2.png" type="Texture" id=7]
+[ext_resource path="res://audios /hit33.ogg" type="AudioStream" id=8]
 
 [sub_resource type="SpriteFrames" id=1]
 
@@ -43,7 +44,7 @@ custom_solver_bias = 0.0
 radius = 7.98428
 height = 39.4243
 
-[node name="MobBean" type="RigidBody2D" index="0"]
+[node name="MobBean" type="RigidBody2D"]
 
 input_pickable = false
 collision_layer = 1
@@ -117,8 +118,26 @@ wait_time = 0.5
 one_shot = false
 autostart = false
 
+[node name="PunchDelayTimer" type="Timer" parent="." index="6"]
+
+process_mode = 1
+wait_time = 2.0
+one_shot = false
+autostart = false
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." index="7"]
+
+stream = ExtResource( 8 )
+volume_db = 0.0
+pitch_scale = 1.0
+autoplay = false
+mix_target = 0
+bus = "Master"
+
 [connection signal="body_entered" from="PunchHand" to="." method="punch_hit"]
 
 [connection signal="timeout" from="PunchTimer" to="." method="_on_PunchTimer_timeout"]
+
+[connection signal="timeout" from="PunchDelayTimer" to="." method="_on_PunchDelayTimer_timeout"]
 
 

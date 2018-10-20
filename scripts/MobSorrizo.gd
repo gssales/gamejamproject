@@ -2,34 +2,31 @@ extends RigidBody2D
 
 signal dead
 export (int) var speed = 200
-var hp = 30
-var walking = true
-var shoot = true
+var hp = 60
+var follow = true
+var punch = true
 var activeAnimation = 'idle'
-onready var player = $'../../Player'
-onready var bullet = $'BulletSeed'
+onready var player = get_node('../../Player')
 
 func _ready():
 	set_mode(MODE_CHARACTER)
 	$Feet.add_exception(self)
 	$AnimatedSprite.play()
-	$BulletSeed.hide()
 
 func _process(delta):
 	var velocity = Vector2()
 	
 	if $Feet.is_colliding():
-		if player.position.distance_to(self.position) <= 500 and shoot:
+		var dist = player.position.distance_to(self.position)
+		if dist <= 100 and punch:
 			punch()
-		elif player.position.distance_to(self.position) > 500:
-			if player.position.x < self.position.x:
+		elif dist > 100:
+			if player.position.x < position.x:
 				velocity.x -= speed
 				$PunchHand.position.x = -90
-				$BulletSeed.position.x = -75
-			elif player.position.x > self.position.x:
+			elif player.position.x > position.x:
 				velocity.x += speed
 				$PunchHand.position.x = 90
-				$BulletSeed.position.x = 75
 	
 	if velocity.length() > 0:
 		$AnimatedSprite.animation = 'walk'
@@ -44,22 +41,17 @@ func _process(delta):
 	set_axis_velocity(velocity)
 
 func punch():
-	shoot = false
+	punch = false
 	activeAnimation = 'punch'
+	$PunchHand/CollisionShape2D.disabled = false
 	$PunchTimer.start()
-	var direction = 1
-	if $AnimatedSprite.flip_h:
-		direction = -1
-	var new = bullet.duplicate()
-	add_child(new)
-	new.direction = Vector2(direction, 0)
-	new.shoot()
 
 func _on_PunchTimer_timeout():
 	$PunchTimer.stop()
 	$PunchDelayTimer.start()
 	$AudioStreamPlayer.stop()
 	activeAnimation = 'idle'
+	$PunchHand/CollisionShape2D.disabled = true
 	
 func punch_hit(body):
 	if body.name == 'Player':
@@ -67,9 +59,10 @@ func punch_hit(body):
 		var direction = body.position.x - self.position.x
 		var punchForce = Vector2(direction, -100).normalized() * 200
 		body.set_axis_velocity(punchForce)
-		body.hp -= 10
-		body.emit_signal('hit', body)
+		if randi() % 100 < 75 :
+			body.hp -= 15
+			body.emit_signal('hit', body)
 
 func _on_PunchDelayTimer_timeout():
 	$PunchDelayTimer.stop()
-	shoot = true
+	punch = true

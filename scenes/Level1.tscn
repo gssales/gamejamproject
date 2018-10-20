@@ -1,12 +1,38 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://scripts/Level.gd" type="Script" id=1]
 [ext_resource path="res://scenes/rooms/Room1.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scenes/rooms/Room2.tscn" type="PackedScene" id=3]
 [ext_resource path="res://scenes/rooms/Room3.tscn" type="PackedScene" id=4]
 [ext_resource path="res://scenes/HUD.tscn" type="PackedScene" id=5]
+[ext_resource path="res://art/buxim-cheio.png" type="Texture" id=6]
+[ext_resource path="res://art/font/Xolonium-Regular.ttf" type="DynamicFontData" id=7]
 
-[node name="Level" type="Node" index="0"]
+[sub_resource type="DynamicFont" id=1]
+
+size = 64
+use_mipmaps = false
+use_filter = false
+font_data = ExtResource( 7 )
+_sections_unfolded = [ "Font", "Settings" ]
+
+[sub_resource type="DynamicFont" id=2]
+
+size = 48
+use_mipmaps = false
+use_filter = false
+font_data = ExtResource( 7 )
+_sections_unfolded = [ "Font", "Settings" ]
+
+[sub_resource type="DynamicFont" id=3]
+
+size = 24
+use_mipmaps = false
+use_filter = false
+font_data = ExtResource( 7 )
+_sections_unfolded = [ "Font", "Settings" ]
+
+[node name="Level" type="Node"]
 
 script = ExtResource( 1 )
 
@@ -20,11 +46,98 @@ _sections_unfolded = [ "Transform" ]
 [node name="Room3" parent="." index="2" instance=ExtResource( 4 )]
 
 position = Vector2( 2900, 0 )
+_sections_unfolded = [ "Transform" ]
 
 [node name="HUD" parent="." index="3" instance=ExtResource( 5 )]
+
+[node name="Sprite" type="Sprite" parent="." index="4"]
+
+position = Vector2( 3270, 480 )
+scale = Vector2( 1.21875, 1.2 )
+texture = ExtResource( 6 )
+
+[node name="Label" type="Label" parent="Sprite" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 181.0
+margin_top = -333.0
+margin_right = 677.0
+margin_bottom = -150.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = SubResource( 1 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "Agora sim
+Buxim Cheio :p"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "custom_colors", "custom_fonts" ]
+
+[node name="Label2" type="Label" parent="Sprite" index="1"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 197.0
+margin_top = -133.0
+margin_right = 672.0
+margin_bottom = -14.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = SubResource( 2 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "Obrigado por jogar!"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "custom_colors", "custom_fonts" ]
+
+[node name="Label3" type="Label" parent="Sprite" index="2"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 468.0
+margin_top = 17.0
+margin_right = 695.0
+margin_bottom = 157.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = SubResource( 3 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "Feito por 
+Gabriel Vogel
+Guilherme Klein
+Guilherme Sales"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "custom_colors", "custom_fonts" ]
 
 [connection signal="room_over" from="Room1" to="." method="_on_Room1_room_over"]
 
 [connection signal="room_over" from="Room2" to="." method="_on_Room2_room_over"]
+
+[connection signal="room_over" from="Room3" to="." method="_on_Room3_room_over"]
+
+[connection signal="start_game" from="HUD" to="." method="new_game"]
 
 

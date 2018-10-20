@@ -1,14 +1,10 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=10 format=2]
 
-[ext_resource path="res://scripts/MobRice.gd" type="Script" id=1]
-[ext_resource path="res://art/arroz_idle_1.png" type="Texture" id=2]
-[ext_resource path="res://art/arroz_idle_2.png" type="Texture" id=3]
-[ext_resource path="res://art/arroz_punch_1.png" type="Texture" id=4]
-[ext_resource path="res://art/arroz_punch_2.png" type="Texture" id=5]
-[ext_resource path="res://art/arroz_walk_1.png" type="Texture" id=6]
-[ext_resource path="res://art/arroz_walk_2.png" type="Texture" id=7]
-[ext_resource path="res://scenes/BulletSeed.tscn" type="PackedScene" id=8]
-[ext_resource path="res://audios /hit33.ogg" type="AudioStream" id=9]
+[ext_resource path="res://scripts/MobSorrizo.gd" type="Script" id=1]
+[ext_resource path="res://art/mago_idle_1.png" type="Texture" id=2]
+[ext_resource path="res://art/mago_idle_2.png" type="Texture" id=3]
+[ext_resource path="res://art/mago_punch_1.png" type="Texture" id=4]
+[ext_resource path="res://audios /hit33.ogg" type="AudioStream" id=5]
 
 [sub_resource type="SpriteFrames" id=1]
 
@@ -18,12 +14,12 @@ animations = [ {
 "name": "idle",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 4 ), ExtResource( 5 ) ],
+"frames": [ ExtResource( 4 ) ],
 "loop": false,
 "name": "punch",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 6 ), ExtResource( 7 ) ],
+"frames": [ ExtResource( 2 ), ExtResource( 3 ) ],
 "loop": true,
 "name": "walk",
 "speed": 5.0
@@ -43,10 +39,10 @@ height = 137.595
 [sub_resource type="CapsuleShape2D" id=4]
 
 custom_solver_bias = 0.0
-radius = 19.0199
-height = 127.412
+radius = 10.241
+height = 60.5466
 
-[node name="MobRice" type="RigidBody2D"]
+[node name="MobSorrizo" type="RigidBody2D"]
 
 input_pickable = false
 collision_layer = 1
@@ -76,7 +72,6 @@ position = Vector2( 0, -20 )
 scale = Vector2( 0.25, 0.25 )
 frames = SubResource( 1 )
 animation = "punch"
-frame = 1
 playing = true
 _sections_unfolded = [ "Transform" ]
 
@@ -105,8 +100,8 @@ _sections_unfolded = [ "Collision", "Transform" ]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PunchHand" index="0"]
 
-position = Vector2( -42.5952, 42.1035 )
-rotation = -1.5708
+position = Vector2( -80.2412, 41.8252 )
+scale = Vector2( 1, 0.894148 )
 shape = SubResource( 4 )
 disabled = true
 _sections_unfolded = [ "Transform" ]
@@ -132,13 +127,9 @@ wait_time = 1.0
 one_shot = false
 autostart = false
 
-[node name="BulletSeed" parent="." index="7" instance=ExtResource( 8 )]
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." index="7"]
 
-position = Vector2( 72.1809, -30.8089 )
-
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." index="8"]
-
-stream = ExtResource( 9 )
+stream = ExtResource( 5 )
 volume_db = 0.0
 pitch_scale = 1.0
 autoplay = false

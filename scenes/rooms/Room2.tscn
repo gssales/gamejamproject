@@ -2,7 +2,7 @@
 
 [ext_resource path="res://scripts/Room.gd" type="Script" id=1]
 [ext_resource path="res://scenes/Scenary.tscn" type="PackedScene" id=2]
-[ext_resource path="res://art/background_1.png" type="Texture" id=3]
+[ext_resource path="res://art/background_2.png" type="Texture" id=3]
 [ext_resource path="res://scenes/EnemyManager.tscn" type="PackedScene" id=4]
 [ext_resource path="res://scenes/enemies/MobRice.tscn" type="PackedScene" id=5]
 [ext_resource path="res://scenes/Player.tscn" type="PackedScene" id=6]
@@ -10,7 +10,7 @@
 [sub_resource type="RectangleShape2D" id=1]
 
 custom_solver_bias = 0.0
-extents = Vector2( 640, 80 )
+extents = Vector2( 640, 30 )
 
 [sub_resource type="SegmentShape2D" id=2]
 
@@ -48,7 +48,7 @@ shape = SubResource( 1 )
 
 [node name="EnemyManager" parent="." index="1" instance=ExtResource( 4 )]
 
-numEnemies = 3
+numEnemies = 7
 Enemy = ExtResource( 5 )
 waitTime = 1.0
 enemySpeed = 100

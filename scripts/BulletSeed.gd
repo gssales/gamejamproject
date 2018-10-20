@@ -6,6 +6,7 @@ var shooting = false
 
 func _ready():
 	hide()
+	pass
 
 func _process(delta):
 	if shooting:
@@ -21,8 +22,9 @@ func shoot():
 func _on_BulletSeed_body_entered(body):
 	hide()
 	shooting = false
-	position = get_parent().position
 	$CollisionShape2D.disabled = true
 	if body.name == "Player":
-		print('jogador atingido')
-		
+		body.hp -= 5
+		body.emit_signal('hit', body)
+	
+	queue_free()

@@ -1,6 +1,7 @@
 extends RigidBody2D
 
 signal hit
+signal dead
 export (int) var speed = 200
 export (int) var jump_height = 300
 var active = false
@@ -36,6 +37,9 @@ func _process(delta):
 		else:
 			$AnimatedSprite.animation = activeAnimation
 	
+	if hp <= 0:
+		emit_signal('dead')
+	
 	set_axis_velocity(velocity)
 
 func punch():
@@ -45,11 +49,13 @@ func punch():
 
 func _on_PunchTimer_timeout():
 	$PunchTimer.stop()
+	$AudioStreamPlayer.stop()
 	activeAnimation = 'idle'
 	$PunchHand/CollisionShape2D.disabled = true
 
 func punch_hit(body):
 	if body.get_parent().name == 'EnemyManager':
+		$AudioStreamPlayer.play()
 		var direction = body.position.x - self.position.x
 		var punchForce = Vector2(direction, -100).normalized() * 200
 		body.set_axis_velocity(punchForce)
